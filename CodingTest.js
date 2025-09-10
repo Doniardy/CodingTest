@@ -1,6 +1,5 @@
 const readline = require('readline');
 
-// Kamus mapping sesuai aturan final
 const letterToNumber = {
   'A': 0,
   'B': 1, 'C': 1, 'D': 1,
@@ -27,7 +26,6 @@ const letterToNumber = {
   ' ': 0
 };
 
-// Mapping angka -> huruf (No 3, No 4)
 const numberToLetter = {
   0: 'A',
   1: 'B',
@@ -41,12 +39,11 @@ const numberToLetter = {
   9: 'V'
 };
 
-// No 1: Huruf ke angka
+
 function textToNumbers(text) {
   return text.split('').map(ch => letterToNumber[ch] ?? 0);
 }
 
-// No 2: Penjumlahan dan pengurangan bergantian
 function alternateSumWithSteps(numbers) {
   if (numbers.length === 0) return { expression: '', result: 0 };
   let expression = numbers[0].toString();
@@ -64,7 +61,6 @@ function alternateSumWithSteps(numbers) {
   return { expression, result };
 }
 
-// No 3: Angka -> array huruf
 function buildSequenceForSum(target) {
   target = Math.abs(Math.trunc(target));
   if (target === 0) return [0];
@@ -87,16 +83,14 @@ function buildSequenceForSum(target) {
 
 function numberToLetters(num) {
   const seqNumbers = buildSequenceForSum(num);
-  return seqNumbers.map(n => numberToLetter[n]); // array huruf
+  return seqNumbers.map(n => numberToLetter[n]); 
 }
 
-// No 4: jalankan ulang (No 1 -> No 2 -> No 3)
 function refineSequence(seqLetters) {
   const nums = seqLetters.map(ch => letterToNumber[ch] ?? 0);
   const { result } = alternateSumWithSteps(nums);
   const newSeq = numberToLetters(result);
 
-  // ambil index 1 dan 2 dari newSeq sebagai pengganti
   const replacement = newSeq.slice(1, 3); 
 
   const refined = [...seqLetters];
@@ -104,7 +98,6 @@ function refineSequence(seqLetters) {
   return refined;
 }
 
-// No 5: Huruf ke angka akhir
 function lettersToFinalNumbers(seqLetters) {
   return seqLetters
     .map(ch => {
@@ -114,7 +107,6 @@ function lettersToFinalNumbers(seqLetters) {
     .join(' ');
 }
 
-// Proses lengkap
 function processText(input) {
   console.log("\nInput:", input);
 
@@ -133,8 +125,6 @@ function processText(input) {
   let finalNums = lettersToFinalNumbers(refined);
   console.log("No  5:", finalNums);
 }
-
-// Input 
 
 const rl = readline.createInterface({
   input: process.stdin,
